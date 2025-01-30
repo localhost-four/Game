@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A horror game where you escape from deadly NPCs and solve puzzles to survive.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Смертная казнь, палки в жопу">
+    <meta property="og:description" content="A horror game where you escape from deadly NPCs and solve puzzles to survive.">
+    <meta property="og:image" content="path.gif">
+    <meta property="og:url" content="/">
+    <link rel="icon" href="path.gif">
+    <title>Смертная казнь, палки в жопу</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        #header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #controls, #settings, #notifications {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #modalSettings {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        @media (max-width: 768px) {
+            #header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="controls">
+            <button onclick="toggleFullscreen()">Полный экран</button>
+            <button onclick="openSettings()">Настройки</button>
+            <button onclick="moveForward()">Вперед</button>
+            <button onclick="moveBackward()">Назад</button>
+            <button onclick="moveLeft()">Влево</button>
+            <button onclick="moveRight()">Вправо</button>
+            <button onclick="interact()">Взаимодействие</button>
+            <button onclick="toggleFlashlight()">Фонарик</button>
+        </div>
+        <div id="notifications">
+            <!-- Уведомления будут отображаться здесь -->
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div id="modalSettings">
+        <h2>Настройки</h2>
+        <label for="volume">Громкость:</label>
+        <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5"><br><br>
+        <label for="brightness">Яркость:</label>
+        <input type="range" id="brightness" min="0" max="1" step="0.1" value="0.5"><br><br>
+        <label for="graphics">Графика:</label>
+        <select id="graphics">
+            <option value="low">Низкая</option>
+            <option value="medium" selected>Средняя</option>
+            <option value="high">Высокая</option>
+        </select><br><br>
+        <button onclick="closeSettings()">Закрыть</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/FirstPersonControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="game.js"></script>
+    <script src="controls.js"></script>
+    <script src="enemies.js"></script>
+    <script src="doorknock.js"></script>
+    <script src="checkpoints.js"></script>
+    <script src="notifications.js"></script>
+    <script src="settings.js"></script>
+    <script>
+        let scene, camera, renderer, controls, player, enemies = [], doors = [];
+        const keys = {};
+        let isFullScreen = false, isSettingsOpen = false;
+
+        // Инициализация сцены
+        function init() {
+            initScene();
+            loadParametersFromURL();
+        }
+
+        init();
+    </script>
+</body>
+</html>
